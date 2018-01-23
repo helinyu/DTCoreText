@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		04AAE77720172341002D48E8 /* custom0.html in Resources */ = {isa = PBXBuildFile; fileRef = 04AAE76020172341002D48E8 /* custom0.html */; };
 		0DA7797F1C56965600796D4F /* DTCoreTextMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = A717BDE319E5A06C0024EF95 /* DTCoreTextMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -1142,6 +1143,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		04AAE76020172341002D48E8 /* custom0.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = custom0.html; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* RTDemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RTDemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -1796,6 +1798,7 @@
 				A788CA2A14863EF100E1AFD9 /* Snippets.plist */,
 				A788CA1B14863EF100E1AFD9 /* Alignment.html */,
 				A788CA1C14863EF100E1AFD9 /* APOD.html */,
+				04AAE76020172341002D48E8 /* custom0.html */,
 				A788CA1D14863EF100E1AFD9 /* ArabicTest.html */,
 				A788CA1F14863EF100E1AFD9 /* CurrentTest.html */,
 				A788CA2014863EF100E1AFD9 /* CustomFont.html */,
@@ -2846,6 +2849,7 @@
 				A788CA3F14863EF100E1AFD9 /* CustomFont.html in Resources */,
 				A788CA4114863EF100E1AFD9 /* Icon.png in Resources */,
 				A76C23D618353EFE00F54F02 /* Oliver.jpg in Resources */,
+				04AAE77720172341002D48E8 /* custom0.html in Resources */,
 				A788CA4214863EF100E1AFD9 /* Icon@2x.png in Resources */,
 				A788CA4314863EF100E1AFD9 /* icon_smile.gif in Resources */,
 				A79BA8261B46E1360086C2F6 /* Launch Screen.xib in Resources */,
