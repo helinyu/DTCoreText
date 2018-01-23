@@ -22,6 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		04AAE77720172341002D48E8 /* custom0.html in Resources */ = {isa = PBXBuildFile; fileRef = 04AAE76020172341002D48E8 /* custom0.html */; };
+		04AAE77920172767002D48E8 /* eg_tulip.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AAE77820172767002D48E8 /* eg_tulip.jpg */; };
 		0DA7797F1C56965600796D4F /* DTCoreTextMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = A717BDE319E5A06C0024EF95 /* DTCoreTextMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -1144,6 +1145,7 @@
 
 /* Begin PBXFileReference section */
 		04AAE76020172341002D48E8 /* custom0.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = custom0.html; sourceTree = "<group>"; };
+		04AAE77820172767002D48E8 /* eg_tulip.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = eg_tulip.jpg; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* RTDemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RTDemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -1798,6 +1800,7 @@
 				A788CA2A14863EF100E1AFD9 /* Snippets.plist */,
 				A788CA1B14863EF100E1AFD9 /* Alignment.html */,
 				A788CA1C14863EF100E1AFD9 /* APOD.html */,
+				04AAE77820172767002D48E8 /* eg_tulip.jpg */,
 				04AAE76020172341002D48E8 /* custom0.html */,
 				A788CA1D14863EF100E1AFD9 /* ArabicTest.html */,
 				A788CA1F14863EF100E1AFD9 /* CurrentTest.html */,
@@ -2854,6 +2857,7 @@
 				A788CA4314863EF100E1AFD9 /* icon_smile.gif in Resources */,
 				A79BA8261B46E1360086C2F6 /* Launch Screen.xib in Resources */,
 				A788CA4414863EF100E1AFD9 /* Image.html in Resources */,
+				04AAE77920172767002D48E8 /* eg_tulip.jpg in Resources */,
 				A788CA4514863EF100E1AFD9 /* ListTest.html in Resources */,
 				A788CA4614863EF100E1AFD9 /* LoremIpsum.html in Resources */,
 				A788CA4814863EF100E1AFD9 /* README.html in Resources */,

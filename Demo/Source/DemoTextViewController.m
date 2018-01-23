@@ -702,7 +702,7 @@
 		}];
 		
 		NSString *word = [plainText substringWithRange:wordRange];
-		NSLog(@"%lu: '%@' word: '%@'", (unsigned long)tappedIndex, tappedChar, word);
+		NSLog(@"index: %lu , char: '%@' , word: '%@'", (unsigned long)tappedIndex, tappedChar, word);
 	}
 }
 
@@ -776,6 +776,32 @@
 @synthesize lastActionLink;
 @synthesize mediaPlayers;
 @synthesize baseURL;
+
+
+
+- (void)attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView willDrawLayoutFrame:(DTCoreTextLayoutFrame *)layoutFrame inContext:(CGContextRef)context {
+	NSLog(@"willDrawLayoutFrame");
+}
+
+- (void)attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView didDrawLayoutFrame:(DTCoreTextLayoutFrame *)layoutFrame inContext:(CGContextRef)context {
+	NSLog(@"didDrawLayoutFrame");
+}
+
+//- (BOOL)attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView shouldDrawBackgroundForTextBlock:(DTTextBlock *)textBlock frame:(CGRect)frame context:(CGContextRef)context forLayoutFrame:(DTCoreTextLayoutFrame *)layoutFrame {
+//	NSLog(@"shouldDrawBackgroundForTextBlock");
+//}
+
+//- (UIView *)attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView viewForAttachment:(DTTextAttachment *)attachment frame:(CGRect)frame {
+//	NSLog(@"viewForAttachment");
+//}
+//
+//- (UIView *)attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView viewForLink:(NSURL *)url identifier:(NSString *)identifier frame:(CGRect)frame {
+//	NSLog(@"viewForLink");
+//}
+//
+//- (UIView *)attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView viewForAttributedString:(NSAttributedString *)string frame:(CGRect)frame {
+//	NSLog(@"viewForAttributedString");
+//}
 
 
 @end
