@@ -14,7 +14,7 @@
 #import "DTWebVideoView.h"
 
 
-@interface YDTestLabelViewController ()
+@interface YDTestLabelViewController ()<UITableViewDelegate,UITableViewDataSource>
 - (void)_segmentedControlChanged:(id)sender;
 
 - (void)linkPushed:(DTLinkButton *)button;
@@ -23,6 +23,8 @@
 
 @property (nonatomic, strong) NSMutableSet *mediaPlayers;
 @property (nonatomic, strong) NSArray *contentViews;
+
+@property (nonatomic, strong) UITableView *tableView;
 
 @end
 
@@ -226,8 +228,13 @@
 {
 	[super viewWillAppear:animated];
 	
-	CGRect bounds = self.view.bounds;
-	_textView.frame = bounds;
+//	CGRect bounds = self.view.bounds;
+//	_textView.frame = bounds;
+	_tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+	_tableView.dataSource = self;
+	_tableView.delegate = self;
+	[_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:NSStringFromClass([UITableViewCell class])];
+	[self.view addSubview:_tableView];
 	
 	// Display string
 	_textView.backgroundColor = [UIColor redColor];
@@ -235,9 +242,21 @@
 	NSAttributedString *attrString = [self _attributedStringForSnippetUsingiOS6Attributes:NO];
 //	CGFloat height = [_textView getRenderH:attrString width:[UIScreen mainScreen].bounds.size.width];
 	CGFloat height = [_textView getRenderHeight:attrString width:_textView.bounds.size.width];
+	_textView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, height);
 	_textView.attributedString = attrString;
+	_tableView.tableHeaderView = _textView;
 	[self _segmentedControlChanged:nil];
 }
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	return 10;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UITableViewCell class]) forIndexPath:indexPath];
+	cell.textLabel.text = @"hahah";
+	return  cell;
+
 
 // this is only called on >= iOS 5
 - (void)viewDidLayoutSubviews

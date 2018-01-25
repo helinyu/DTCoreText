@@ -1128,7 +1128,7 @@ static Class _layerClassToUseForDTAttributedTextContentView = nil;
 	
 		}
 	}
-	return obj.frame.origin.y + obj.frame.size.height;
+	return ceilf(obj.baselineOrigin.y + obj.frame.size.height);
 }
 
 @end
