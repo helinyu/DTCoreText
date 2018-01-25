@@ -232,44 +232,11 @@
 	_textView.frame = bounds;
 
 	// Display string
+
 	_textView.shouldDrawLinks = NO; // we draw them in DTLinkButton
 	_textView.attributedString = [self _attributedStringForSnippetUsingiOS6Attributes:NO];
 	
 	[self _segmentedControlChanged:nil];
-	
-	[self.navigationController setToolbarHidden:NO animated:YES];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-	[super viewDidAppear:animated];
-	
-	// now the bar is up so we can autoresize again
-	_textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-}
-
-- (void)viewWillDisappear:(BOOL)animated;
-{
-	[self.navigationController setToolbarHidden:YES animated:YES];
-	
-	// stop all playing media
-	for (MPMoviePlayerController *player in self.mediaPlayers)
-	{
-		[player stop];
-	}
-	
-	[super viewWillDisappear:animated];
-}
-
-- (BOOL)prefersStatusBarHidden
-{
-	// prevent hiding of status bar in landscape because this messes up the layout guide calc
-	return NO;
-}
-
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-	_needsAdjustInsetsOnLayout = YES;
 }
 
 // this is only called on >= iOS 5
@@ -277,46 +244,46 @@
 {
 	[super viewDidLayoutSubviews];
 	
-	if (![self respondsToSelector:@selector(topLayoutGuide)] || !_needsAdjustInsetsOnLayout)
-	{
-		return;
-	}
-	
-	// this also compiles with iOS 6 SDK, but will work with later SDKs too
-	CGFloat topInset = [[self valueForKeyPath:@"topLayoutGuide.length"] floatValue];
-	CGFloat bottomInset = [[self valueForKeyPath:@"bottomLayoutGuide.length"] floatValue];
-	
-	UIEdgeInsets outerInsets = UIEdgeInsetsMake(topInset, 0, bottomInset, 0);
-	UIEdgeInsets innerInsets = outerInsets;
-	innerInsets.left += 10;
-	innerInsets.right += 10;
-	innerInsets.top += 10;
-	innerInsets.bottom += 10;
-	
-	CGPoint innerScrollOffset = CGPointMake(-innerInsets.left, -innerInsets.top);
-	CGPoint outerScrollOffset = CGPointMake(-outerInsets.left, -outerInsets.top);
-	
-	_textView.contentInset = innerInsets;
-	_textView.contentOffset = innerScrollOffset;
-	_textView.scrollIndicatorInsets = outerInsets;
-	
-	_iOS6View.contentInset = outerInsets;
-	_iOS6View.contentOffset = outerScrollOffset;
-	_iOS6View.scrollIndicatorInsets = outerInsets;
-
-	_charsView.contentInset = outerInsets;
-	_charsView.contentOffset = outerScrollOffset;
-	_charsView.scrollIndicatorInsets = outerInsets;
-	
-	_rangeView.contentInset = outerInsets;
-	_rangeView.contentOffset = outerScrollOffset;
-	_rangeView.scrollIndicatorInsets = outerInsets;
-	
-	_htmlView.contentInset = outerInsets;
-	_htmlView.contentOffset = outerScrollOffset;
-	_htmlView.scrollIndicatorInsets = outerInsets;
-	
-	_needsAdjustInsetsOnLayout = NO;
+//	if (![self respondsToSelector:@selector(topLayoutGuide)] || !_needsAdjustInsetsOnLayout)
+//	{
+//		return;
+//	}
+//
+//	// this also compiles with iOS 6 SDK, but will work with later SDKs too
+//	CGFloat topInset = [[self valueForKeyPath:@"topLayoutGuide.length"] floatValue];
+//	CGFloat bottomInset = [[self valueForKeyPath:@"bottomLayoutGuide.length"] floatValue];
+//
+//	UIEdgeInsets outerInsets = UIEdgeInsetsMake(topInset, 0, bottomInset, 0);
+//	UIEdgeInsets innerInsets = outerInsets;
+//	innerInsets.left += 10;
+//	innerInsets.right += 10;
+//	innerInsets.top += 10;
+//	innerInsets.bottom += 10;
+//
+//	CGPoint innerScrollOffset = CGPointMake(-innerInsets.left, -innerInsets.top);
+//	CGPoint outerScrollOffset = CGPointMake(-outerInsets.left, -outerInsets.top);
+//
+//	_textView.contentInset = innerInsets;
+//	_textView.contentOffset = innerScrollOffset;
+//	_textView.scrollIndicatorInsets = outerInsets;
+//
+//	_iOS6View.contentInset = outerInsets;
+//	_iOS6View.contentOffset = outerScrollOffset;
+//	_iOS6View.scrollIndicatorInsets = outerInsets;
+//
+//	_charsView.contentInset = outerInsets;
+//	_charsView.contentOffset = outerScrollOffset;
+//	_charsView.scrollIndicatorInsets = outerInsets;
+//
+//	_rangeView.contentInset = outerInsets;
+//	_rangeView.contentOffset = outerScrollOffset;
+//	_rangeView.scrollIndicatorInsets = outerInsets;
+//
+//	_htmlView.contentInset = outerInsets;
+//	_htmlView.contentOffset = outerScrollOffset;
+//	_htmlView.scrollIndicatorInsets = outerInsets;
+//
+//	_needsAdjustInsetsOnLayout = NO;
 }
 
 #pragma mark Private Methods
@@ -390,46 +357,10 @@
 - (void)_segmentedControlChanged:(id)sender {
 	UIScrollView *selectedView = _textView;
 	
-	switch (_segmentedControl.selectedSegmentIndex)
-	{
-		case 1:
-		{
-			selectedView = _rangeView;
-			break;
-		}
-			
-		case 2:
-		{
-			selectedView = _charsView;
-			break;
-		}
-			
-		case 3:
-		{
-			selectedView = _htmlView;
-			
-			break;
-		}
-			
-		case 4:
-		{
-			selectedView = _iOS6View;
-			break;
-		}
-	}
-
-	// refresh only this tab
-	[self updateDetailViewForIndex:_segmentedControl.selectedSegmentIndex];
-	
 	// Hide all views except for the selected view to not conflict with VoiceOver
 	for (UIView *view in self.contentViews)
 		view.hidden = YES;
 	selectedView.hidden = NO;
-	
-	[self.view bringSubviewToFront:selectedView];
-	[selectedView flashScrollIndicators];
-	
-	[self _updateToolbarForMode];
 }
 
 - (void)_htmlModeChanged:(id)sender
@@ -796,22 +727,6 @@
 - (void)attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView didDrawLayoutFrame:(DTCoreTextLayoutFrame *)layoutFrame inContext:(CGContextRef)context {
 	NSLog(@"didDrawLayoutFrame");
 }
-
-//- (BOOL)attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView shouldDrawBackgroundForTextBlock:(DTTextBlock *)textBlock frame:(CGRect)frame context:(CGContextRef)context forLayoutFrame:(DTCoreTextLayoutFrame *)layoutFrame {
-//	NSLog(@"shouldDrawBackgroundForTextBlock");
-//}
-
-//- (UIView *)attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView viewForAttachment:(DTTextAttachment *)attachment frame:(CGRect)frame {
-//	NSLog(@"viewForAttachment");
-//}
-//
-//- (UIView *)attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView viewForLink:(NSURL *)url identifier:(NSString *)identifier frame:(CGRect)frame {
-//	NSLog(@"viewForLink");
-//}
-//
-//- (UIView *)attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView viewForAttributedString:(NSAttributedString *)string frame:(CGRect)frame {
-//	NSLog(@"viewForAttributedString");
-//}
 
 
 @end
