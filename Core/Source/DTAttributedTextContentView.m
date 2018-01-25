@@ -1123,7 +1123,7 @@ static Class _layerClassToUseForDTAttributedTextContentView = nil;
 	}
 	NSLog(@"lines ;%@",lines);
 	DTCoreTextLayoutLine *obj = lines.lastObject;
-	return obj.frame.origin.y;
+	return obj.frame.origin.y + obj.frame.size.height;
 }
 
 @end
