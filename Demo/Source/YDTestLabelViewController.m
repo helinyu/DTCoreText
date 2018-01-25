@@ -6,7 +6,7 @@
 //  Copyright 2011 Drobnik.com. All rights reserved.
 //
 
-#import "DemoTextViewController.h"
+#import "YDTestLabelViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import <MediaPlayer/MediaPlayer.h>
 
@@ -14,7 +14,7 @@
 #import "DTWebVideoView.h"
 
 
-@interface DemoTextViewController ()
+@interface YDTestLabelViewController ()
 - (void)_segmentedControlChanged:(id)sender;
 
 - (void)linkPushed:(DTLinkButton *)button;
@@ -27,14 +27,14 @@
 @end
 
 
-@implementation DemoTextViewController
+@implementation YDTestLabelViewController
 {
 	NSString *_fileName;
 	
 	UISegmentedControl *_segmentedControl;
 	UISegmentedControl *_htmlOutputTypeSegment;
 	
-	DTAttributedTextView *_textView;
+	DTAttributedLabel *_textView;
 	UITextView *_rangeView;
 	UITextView *_charsView;
 	UITextView *_htmlView;
@@ -72,7 +72,7 @@
 		_segmentedControl = [[UISegmentedControl alloc] initWithItems:items];
 		_segmentedControl.selectedSegmentIndex = 0;
 		[_segmentedControl addTarget:self action:@selector(_segmentedControlChanged:) forControlEvents:UIControlEventValueChanged];
-		self.navigationItem.titleView = _segmentedControl;	
+		self.navigationItem.titleView = _segmentedControl;
 		
 		[self _updateToolbarForMode];
 		
@@ -84,7 +84,7 @@
 }
 
 
-- (void)dealloc 
+- (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -119,22 +119,22 @@
 			
 			[_htmlOutputTypeSegment addTarget:self action:@selector(_htmlModeChanged:) forControlEvents:UIControlEventValueChanged];
 		}
-	
+		
 		UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
 		[toolbarItems addObject:spacer];
-	
+		
 		UIBarButtonItem *htmlMode = [[UIBarButtonItem alloc] initWithCustomView:_htmlOutputTypeSegment];
-	
+		
 		[toolbarItems addObject:htmlMode];
 	}
-
+	
 	[self setToolbarItems:toolbarItems];
 }
 
 - (void)loadView {
 	[super loadView];
 	
-	CGRect frame = CGRectMake(0.0, 100., self.view.frame.size.width, self.view.frame.size.height);
+	CGRect frame = CGRectMake(0.0, 100.f, self.view.frame.size.width, self.view.frame.size.height);
 	
 	// Create chars view
 	_charsView = [[UITextView alloc] initWithFrame:frame];
@@ -147,29 +147,24 @@
 	_rangeView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	_rangeView.editable = NO;
 	[self.view addSubview:_rangeView];
-
+	
 	// Create html view
 	_htmlView = [[UITextView alloc] initWithFrame:frame];
 	_htmlView.editable = NO;
 	_htmlView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	[self.view addSubview:_htmlView];
-
+	
 	// Create text view
-	_textView = [[DTAttributedTextView alloc] initWithFrame:frame];
+	_textView = [[DTAttributedLabel alloc] initWithFrame:frame];
 	
 	// we draw images and links via subviews provided by delegate methods
 	_textView.shouldDrawImages = NO;
 	_textView.shouldDrawLinks = NO;
-	_textView.textDelegate = self; // delegate for custom sub views
+	_textView.delegate = self; // delegate for custom sub views
 	
 	// gesture for testing cursor positions
 	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
 	[_textView addGestureRecognizer:tap];
-	
-	// set an inset. Since the bottom is below a toolbar inset by 44px
-//	[_textView setScrollIndicatorInsets:UIEdgeInsetsMake(0, 0, 44, 0)];
-//	_textView.contentInset = UIEdgeInsetsMake(10, 10, 54, 10);
-
 	_textView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	[self.view addSubview:_textView];
 	
@@ -213,7 +208,7 @@
 	};
 	
 	NSMutableDictionary *options = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:1.0], NSTextSizeMultiplierDocumentOption, [NSValue valueWithCGSize:maxImageSize], DTMaxImageSize,
-							 @"Times New Roman", DTDefaultFontFamily,  @"purple", DTDefaultLinkColor, @"red", DTDefaultLinkHighlightColor, callBackBlock, DTWillFlushBlockCallBack, nil];
+									@"Times New Roman", DTDefaultFontFamily,  @"purple", DTDefaultLinkColor, @"red", DTDefaultLinkHighlightColor, callBackBlock, DTWillFlushBlockCallBack, nil];
 	
 	if (useiOS6Attributes)
 	{
@@ -233,12 +228,13 @@
 	
 	CGRect bounds = self.view.bounds;
 	_textView.frame = bounds;
-
+	
 	// Display string
 	_textView.backgroundColor = [UIColor redColor];
 	_textView.shouldDrawLinks = NO; // we draw them in DTLinkButton
 	NSAttributedString *attrString = [self _attributedStringForSnippetUsingiOS6Attributes:NO];
-	CGFloat height = [_textView getRenderH:attrString width:[UIScreen mainScreen].bounds.size.width];
+//	CGFloat height = [_textView getRenderH:attrString width:[UIScreen mainScreen].bounds.size.width];
+	CGFloat height = [_textView getRenderHeight:attrString width:_textView.bounds.size.width];
 	_textView.attributedString = attrString;
 	[self _segmentedControlChanged:nil];
 }
@@ -248,53 +244,53 @@
 {
 	[super viewDidLayoutSubviews];
 	
-//	if (![self respondsToSelector:@selector(topLayoutGuide)] || !_needsAdjustInsetsOnLayout)
-//	{
-//		return;
-//	}
-//
-//	// this also compiles with iOS 6 SDK, but will work with later SDKs too
-//	CGFloat topInset = [[self valueForKeyPath:@"topLayoutGuide.length"] floatValue];
-//	CGFloat bottomInset = [[self valueForKeyPath:@"bottomLayoutGuide.length"] floatValue];
-//
-//	UIEdgeInsets outerInsets = UIEdgeInsetsMake(topInset, 0, bottomInset, 0);
-//	UIEdgeInsets innerInsets = outerInsets;
-//	innerInsets.left += 10;
-//	innerInsets.right += 10;
-//	innerInsets.top += 10;
-//	innerInsets.bottom += 10;
-//
-//	CGPoint innerScrollOffset = CGPointMake(-innerInsets.left, -innerInsets.top);
-//	CGPoint outerScrollOffset = CGPointMake(-outerInsets.left, -outerInsets.top);
-//
-//	_textView.contentInset = innerInsets;
-//	_textView.contentOffset = innerScrollOffset;
-//	_textView.scrollIndicatorInsets = outerInsets;
-//
-//	_iOS6View.contentInset = outerInsets;
-//	_iOS6View.contentOffset = outerScrollOffset;
-//	_iOS6View.scrollIndicatorInsets = outerInsets;
-//
-//	_charsView.contentInset = outerInsets;
-//	_charsView.contentOffset = outerScrollOffset;
-//	_charsView.scrollIndicatorInsets = outerInsets;
-//
-//	_rangeView.contentInset = outerInsets;
-//	_rangeView.contentOffset = outerScrollOffset;
-//	_rangeView.scrollIndicatorInsets = outerInsets;
-//
-//	_htmlView.contentInset = outerInsets;
-//	_htmlView.contentOffset = outerScrollOffset;
-//	_htmlView.scrollIndicatorInsets = outerInsets;
-//
-//	_needsAdjustInsetsOnLayout = NO;
+	//	if (![self respondsToSelector:@selector(topLayoutGuide)] || !_needsAdjustInsetsOnLayout)
+	//	{
+	//		return;
+	//	}
+	//
+	//	// this also compiles with iOS 6 SDK, but will work with later SDKs too
+	//	CGFloat topInset = [[self valueForKeyPath:@"topLayoutGuide.length"] floatValue];
+	//	CGFloat bottomInset = [[self valueForKeyPath:@"bottomLayoutGuide.length"] floatValue];
+	//
+	//	UIEdgeInsets outerInsets = UIEdgeInsetsMake(topInset, 0, bottomInset, 0);
+	//	UIEdgeInsets innerInsets = outerInsets;
+	//	innerInsets.left += 10;
+	//	innerInsets.right += 10;
+	//	innerInsets.top += 10;
+	//	innerInsets.bottom += 10;
+	//
+	//	CGPoint innerScrollOffset = CGPointMake(-innerInsets.left, -innerInsets.top);
+	//	CGPoint outerScrollOffset = CGPointMake(-outerInsets.left, -outerInsets.top);
+	//
+	//	_textView.contentInset = innerInsets;
+	//	_textView.contentOffset = innerScrollOffset;
+	//	_textView.scrollIndicatorInsets = outerInsets;
+	//
+	//	_iOS6View.contentInset = outerInsets;
+	//	_iOS6View.contentOffset = outerScrollOffset;
+	//	_iOS6View.scrollIndicatorInsets = outerInsets;
+	//
+	//	_charsView.contentInset = outerInsets;
+	//	_charsView.contentOffset = outerScrollOffset;
+	//	_charsView.scrollIndicatorInsets = outerInsets;
+	//
+	//	_rangeView.contentInset = outerInsets;
+	//	_rangeView.contentOffset = outerScrollOffset;
+	//	_rangeView.scrollIndicatorInsets = outerInsets;
+	//
+	//	_htmlView.contentInset = outerInsets;
+	//	_htmlView.contentOffset = outerScrollOffset;
+	//	_htmlView.scrollIndicatorInsets = outerInsets;
+	//
+	//	_needsAdjustInsetsOnLayout = NO;
 }
 
 #pragma mark Private Methods
 
 - (void)updateDetailViewForIndex:(NSUInteger)index
 {
-	switch (index) 
+	switch (index)
 	{
 		case 1:
 		{
@@ -558,7 +554,7 @@
 - (BOOL)attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView shouldDrawBackgroundForTextBlock:(DTTextBlock *)textBlock frame:(CGRect)frame context:(CGContextRef)context forLayoutFrame:(DTCoreTextLayoutFrame *)layoutFrame
 {
 	UIBezierPath *roundedRect = [UIBezierPath bezierPathWithRoundedRect:CGRectInset(frame,1,1) cornerRadius:10];
-
+	
 	CGColorRef color = [textBlock.backgroundColor CGColor];
 	if (color)
 	{
@@ -586,17 +582,17 @@
 	{
 		[[UIApplication sharedApplication] openURL:[URL absoluteURL]];
 	}
-	else 
+	else
 	{
 		if (![URL host] && ![URL path])
 		{
-		
+			
 			// possibly a local anchor link
 			NSString *fragment = [URL fragment];
 			
 			if (fragment)
 			{
-				[_textView scrollToAnchorNamed:fragment animated:NO];
+//				[_textView scrollToAnchorNamed:fragment animated:NO];
 			}
 		}
 	}
@@ -654,13 +650,13 @@
 - (void)debugButton:(UIBarButtonItem *)sender
 {
 	[DTCoreTextLayoutFrame setShouldDrawDebugFrames:![DTCoreTextLayoutFrame shouldDrawDebugFrames]];
-	[_textView.attributedTextContentView setNeedsDisplay];
+	[_textView setNeedsDisplay];
 }
 
 - (void)screenshot:(UIBarButtonItem *)sender
 {
 	UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-
+	
 	CGRect rect = [keyWindow bounds];
 	UIGraphicsBeginImageContextWithOptions(rect.size, YES, 0);
 	
@@ -684,7 +680,7 @@
 	BOOL didUpdate = NO;
 	
 	// update all attachments that match this URL (possibly multiple images with same size)
-	for (DTTextAttachment *oneAttachment in [_textView.attributedTextContentView.layoutFrame textAttachmentsWithPredicate:pred])
+	for (DTTextAttachment *oneAttachment in [_textView.layoutFrame textAttachmentsWithPredicate:pred])
 	{
 		// update attachments that have no original size, that also sets the display size
 		if (CGSizeEqualToSize(oneAttachment.originalSize, CGSizeZero))

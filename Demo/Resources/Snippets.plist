@@ -6,6 +6,14 @@
 		<key>Description</key>
 		<string>Shows the current level of image support.</string>
 		<key>File</key>
+		<string>Image1.html</string>
+		<key>Title</key>
+		<string>Image Handling</string>
+	</dict>
+	<dict>
+		<key>Description</key>
+		<string>Shows the current level of image support.</string>
+		<key>File</key>
 		<string>Image.html</string>
 		<key>Title</key>
 		<string>Image Handling</string>

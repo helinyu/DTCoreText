@@ -40,6 +40,8 @@
 		3A4EA5301D475B2B009222BF /* NSNumber+RomanNumerals.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4EA5101D475B17009222BF /* NSNumber+RomanNumerals.m */; };
 		3A4EA5321D475D76009222BF /* NSNumberRomanNumeralsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4EA5311D475D76009222BF /* NSNumberRomanNumeralsTest.m */; };
 		3A4EA5331D475D76009222BF /* NSNumberRomanNumeralsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A4EA5311D475D76009222BF /* NSNumberRomanNumeralsTest.m */; };
+		4146A7B2201A19E800DCA54C /* Image1.html in Resources */ = {isa = PBXBuildFile; fileRef = 4146A79B201A19E800DCA54C /* Image1.html */; };
+		4146A7B5201A1E8800DCA54C /* YDTestLabelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4146A7B4201A1E8800DCA54C /* YDTestLabelViewController.m */; };
 		4266937E1B56F60D00F9DBFC /* CTLineUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4266937D1B56F60D00F9DBFC /* CTLineUtils.m */; };
 		426693AA1B56F91200F9DBFC /* CTLineUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4266937D1B56F60D00F9DBFC /* CTLineUtils.m */; };
 		426693AC1B56F94300F9DBFC /* CTLineUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4266937D1B56F60D00F9DBFC /* CTLineUtils.m */; };
@@ -1153,6 +1155,9 @@
 		3A4EA50F1D475B17009222BF /* NSNumber+RomanNumerals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+RomanNumerals.h"; sourceTree = "<group>"; };
 		3A4EA5101D475B17009222BF /* NSNumber+RomanNumerals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+RomanNumerals.m"; sourceTree = "<group>"; };
 		3A4EA5311D475D76009222BF /* NSNumberRomanNumeralsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSNumberRomanNumeralsTest.m; sourceTree = "<group>"; };
+		4146A79B201A19E800DCA54C /* Image1.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Image1.html; sourceTree = "<group>"; };
+		4146A7B3201A1E8800DCA54C /* YDTestLabelViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YDTestLabelViewController.h; sourceTree = "<group>"; };
+		4146A7B4201A1E8800DCA54C /* YDTestLabelViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YDTestLabelViewController.m; sourceTree = "<group>"; };
 		4266937C1B56F60D00F9DBFC /* CTLineUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTLineUtils.h; sourceTree = "<group>"; };
 		4266937D1B56F60D00F9DBFC /* CTLineUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTLineUtils.m; sourceTree = "<group>"; };
 		5AF0E4D86A6BE8FC798F9702 /* AutoLayoutDemoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AutoLayoutDemoViewController.xib; sourceTree = "<group>"; };
@@ -1812,6 +1817,7 @@
 				A788CA2414863EF100E1AFD9 /* icon_smile.gif */,
 				A72418161678BACE001362C4 /* iOS6.html */,
 				A788CA2514863EF100E1AFD9 /* Image.html */,
+				4146A79B201A19E800DCA54C /* Image1.html */,
 				A788CA2614863EF100E1AFD9 /* ListTest.html */,
 				A788CA2714863EF100E1AFD9 /* LoremIpsum.html */,
 				A7F0C4231965A0D600D7FAFB /* simpson20.gif */,
@@ -1845,6 +1851,8 @@
 				A788CA3614863EF100E1AFD9 /* DemoSnippetsViewController.m */,
 				A788CA3714863EF100E1AFD9 /* DemoTextViewController.h */,
 				A788CA3814863EF100E1AFD9 /* DemoTextViewController.m */,
+				4146A7B3201A1E8800DCA54C /* YDTestLabelViewController.h */,
+				4146A7B4201A1E8800DCA54C /* YDTestLabelViewController.m */,
 				A788CA3914863EF100E1AFD9 /* main.m */,
 				A740368516E51B3A00ECCDE0 /* DemoAboutViewController.h */,
 				A740368616E51B3A00ECCDE0 /* DemoAboutViewController.m */,
@@ -2870,6 +2878,7 @@
 				A788CA4E14863EF100E1AFD9 /* XB Niloofar.ttf in Resources */,
 				A788CA4F14863EF100E1AFD9 /* XB NiloofarBd.ttf in Resources */,
 				A7D54EA514E003190063E78B /* Objects.html in Resources */,
+				4146A7B2201A19E800DCA54C /* Image1.html in Resources */,
 				A7A95D9514F3F45E002E3F7E /* LineHeight.html in Resources */,
 				A78C241115073BC50045651E /* TextBoxes.html in Resources */,
 				A72C15C71592FAF70064A67F /* CoreTextIssues.html in Resources */,
@@ -2986,6 +2995,7 @@
 			files = (
 				A788CA5014863EF100E1AFD9 /* CoreTextDemoAppDelegate.m in Sources */,
 				A788CA5114863EF100E1AFD9 /* DemoSnippetsViewController.m in Sources */,
+				4146A7B5201A1E8800DCA54C /* YDTestLabelViewController.m in Sources */,
 				4266937E1B56F60D00F9DBFC /* CTLineUtils.m in Sources */,
 				A788CA5214863EF100E1AFD9 /* DemoTextViewController.m in Sources */,
 				A788CA5314863EF100E1AFD9 /* main.m in Sources */,
