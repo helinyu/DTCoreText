@@ -52,6 +52,9 @@
 
 #pragma mark NSObject
 
+
+
+
 - (id)init
 {
 	self = [super init];
@@ -234,8 +237,9 @@
 	// Display string
 
 	_textView.shouldDrawLinks = NO; // we draw them in DTLinkButton
-	_textView.attributedString = [self _attributedStringForSnippetUsingiOS6Attributes:NO];
-	
+	NSAttributedString *attrString = [self _attributedStringForSnippetUsingiOS6Attributes:NO];
+	CGFloat height = [_textView getRenderH:attrString width:[UIScreen mainScreen].bounds.size.width];
+	_textView.attributedString = attrString;
 	[self _segmentedControlChanged:nil];
 }
 

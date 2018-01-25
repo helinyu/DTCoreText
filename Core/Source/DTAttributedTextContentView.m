@@ -1106,4 +1106,24 @@ static Class _layerClassToUseForDTAttributedTextContentView = nil;
 	return image;
 }
 
+- (CGFloat)getRenderHeight:(NSAttributedString *)attrString width:(CGFloat)width {
+	DTAttributedTextContentView *textContentView = [DTAttributedTextContentView new];
+	textContentView.frame = CGRectMake(0, 0, width, CGFLOAT_MAX);
+	textContentView.attributedString = attrString;
+	
+	NSAttributedString *layoutString = [textContentView.layoutFrame attributedStringFragment];
+	NSArray *lines;
+	if (CGRectIsInfinite(textContentView.bounds))
+	{
+		lines = [textContentView.layoutFrame lines];
+	}
+	else
+	{
+		lines = [textContentView.layoutFrame linesVisibleInRect:textContentView.bounds];
+	}
+	NSLog(@"lines ;%@",lines);
+	DTCoreTextLayoutLine *obj = lines.lastObject;
+	return obj.frame.origin.y;
+}
+
 @end

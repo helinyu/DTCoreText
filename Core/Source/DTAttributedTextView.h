@@ -125,4 +125,6 @@
  */
 - (CGRect)cursorRectAtIndex:(NSInteger)index;
 
+- (CGFloat)getRenderH:(NSAttributedString *)attrString width:(CGFloat)width;
+
 @end

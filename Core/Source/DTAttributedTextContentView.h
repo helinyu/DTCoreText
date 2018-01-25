@@ -361,4 +361,8 @@ typedef NSUInteger DTAttributedTextContentViewRelayoutMask;
  */
 - (CGRect)cursorRectAtIndex:(NSInteger)index;
 
+// 渲染的大小的高度
+//- (CGFloat)getRenderHeight:(NSAttributedString *)attrString;
+- (CGFloat)getRenderHeight:(NSAttributedString *)attrString width:(CGFloat)width;
+
 @end

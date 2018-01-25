@@ -406,6 +406,11 @@
 	_attributedTextContentView.shouldDrawImages = _shouldDrawImages;
 }
 
+- (CGFloat)getRenderH:(NSAttributedString *)attrString width:(CGFloat)width {
+	return [[DTAttributedTextContentView new] getRenderHeight:attrString width:width];
+}
+
+
 @synthesize attributedTextContentView = _attributedTextContentView;
 @synthesize attributedString = _attributedString;
 @synthesize textDelegate = _textDelegate;
