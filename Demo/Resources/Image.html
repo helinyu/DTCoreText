@@ -6,7 +6,7 @@
 <p>There is a known issue with images as blocks, outside of p tags.</p>
 <img class="Bla" style="width:150px; height:150px" src="Oliver.jpg">
 <p>An Image outside of P is treated as a paragraph</p>
-<p><img style="float:right;" width="100" height="100" src="Oliver.jpg">The previous image has float style. As a <span style="background-color:yellow;">Workaround</span> a newline is added after it until we can support floating in the layouting. This is done if the inline image is more than 5 times as large as the current font pixel size. This should allow small inline images, like smileys to stay in line, while most float images would probably be larger than this.</p>
+<p> <a href="http://www.baidu.com"><img style="float:right;" width="100" height="100" src="Oliver.jpg"></a>The previous image has float style. As a <span style="background-color:yellow;">Workaround</span> a newline is added after it until we can support floating in the layouting. This is done if the inline image is more than 5 times as large as the current font pixel size. This should allow small inline images, like smileys to stay in line, while most float images would probably be larger than this.</p>
 <h2>Supported Attributes</h2>
 <ul>
 <li><b>width</b>, <b>height</b> in pixels</li>
@@ -28,7 +28,7 @@
 <p>Limited support for the CSS vertical-align tag exists</p>
 <p style="font-size:20px">Baseline: <img style="vertical-align:baseline;" height=40 width=40 src="icon_smile.gif"></p>
 <p style="font-size:20px">text-top: <img style="vertical-align:text-top;" height=40 width=40 src="icon_smile.gif"></p>
-<p style="font-size:20px">text-bottom: <img style="vertical-align:text-bottom;" height=40 width=40 src="icon_smile.gif"></p>
+	<p style="font-size:20px">text-bottom:<a herf="http://www.baidu.com"><img style="vertical-align:text-bottom;" height=40 width=40 src="icon_smile.gif"> </a></p>
 <p style="font-size:20px">middle: <img style="vertical-align:middle;" height=40 width=40 src="icon_smile.gif"></p>	
 <h2>Data Source</h2>
 	<p>Base64 encoded data SRC is supported, for example this red dot: <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA

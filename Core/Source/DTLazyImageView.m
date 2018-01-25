@@ -52,6 +52,25 @@ NSString * const DTLazyImageViewDidFinishDownloadNotification = @"DTLazyImageVie
 	BOOL shouldShowProgressiveDownload;
 	
 	DT_WEAK_VARIABLE id<DTLazyImageViewDelegate> _delegate;
+	
+	UITapGestureRecognizer *_tapGR;
+}
+
+- (instancetype)init
+{
+	self = [super init];
+	if (self) {
+		[self baseInit];
+	}
+	return self;
+}
+
+- (void)baseInit {
+	if (_tapGR) {
+		_tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapGR:)];
+		self.userInteractionEnabled = YES;
+		[self addGestureRecognizer:_tapGR];
+	}
 }
 
 - (void)dealloc
@@ -65,6 +84,10 @@ NSString * const DTLazyImageViewDidFinishDownloadNotification = @"DTLazyImageVie
 #endif
 	
 	if (_imageSource) CFRelease(_imageSource);
+}
+
+- (void)onTapGR:(UITapGestureRecognizer *)GR {
+	!_tapBlock? :_tapBlock();
 }
 
 - (void)loadImageAtURL:(NSURL *)url

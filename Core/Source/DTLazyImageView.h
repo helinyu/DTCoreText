@@ -78,4 +78,10 @@ extern NSString * const DTLazyImageViewDidFinishDownloadNotification;
  */
 - (void)cancelLoading;
 
+/**
+ @name tap action block
+ */
+typedef void (^VoidBlock)(void);
+@property (nonatomic, copy) VoidBlock tapBlock;
+
 @end

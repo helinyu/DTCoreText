@@ -453,6 +453,7 @@
 	button.URL = URL;
 	button.minimumHitSize = CGSizeMake(25, 25); // adjusts it's bounds so that button is always large enough
 	button.GUID = identifier;
+	button.backgroundColor = [UIColor greenColor];
 	
 	// get image with normal link text
 	UIImage *normalImage = [attributedTextContentView contentImageWithBounds:frame options:DTCoreTextLayoutFrameDrawingDefault];
@@ -555,10 +556,15 @@
 		
 		// sets the image if there is one
 		imageView.image = [(DTImageTextAttachment *)attachment image];
+		imageView.userInteractionEnabled = YES;
+		UITapGestureRecognizer *tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
+		[imageView addGestureRecognizer:tapGR];
 		
 		// url for deferred loading
 		imageView.url = attachment.contentURL;
-		
+		imageView.tapBlock = ^{
+			NSLog(@"tap clock");
+		};
 		// if there is a hyperlink then add a link button on top of this image
 		if (attachment.hyperLinkURL)
 		{
@@ -608,6 +614,10 @@
 	}
 	
 	return nil;
+}
+
+- (void)onTap:(UITapGestureRecognizer *)recognizer {
+	NSLog(@"recognizer ：%@",recognizer);
 }
 
 - (BOOL)attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView shouldDrawBackgroundForTextBlock:(DTTextBlock *)textBlock frame:(CGRect)frame context:(CGContextRef)context forLayoutFrame:(DTCoreTextLayoutFrame *)layoutFrame
@@ -715,7 +725,7 @@
 - (void)screenshot:(UIBarButtonItem *)sender
 {
 	UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-	
+
 	CGRect rect = [keyWindow bounds];
 	UIGraphicsBeginImageContextWithOptions(rect.size, YES, 0);
 	
