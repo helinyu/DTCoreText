@@ -4,11 +4,11 @@
 <array>
 	<dict>
 		<key>BaseURL</key>
-		<string>https://apod.nasa.gov/apod/</string>
+		<string>https://www.baidu.com/</string>
 		<key>Description</key>
 		<string>test html</string>
 		<key>File</key>
-		<string>archivepix.html</string>
+		<string>index.html</string>
 		<key>Title</key>
 		<string>Space and Newline Handling.</string>
 	</dict>

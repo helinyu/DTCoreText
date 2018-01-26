@@ -180,7 +180,7 @@
 	_iOS6View.contentInset = UIEdgeInsetsMake(10, 0, 10, 0);
 	_iOS6View.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	[self.view addSubview:_iOS6View];
-	
+
 	self.contentViews = @[_charsView, _rangeView, _htmlView, _textView, _iOS6View];
 }
 
@@ -188,12 +188,26 @@
 - (NSAttributedString *)_attributedStringForSnippetUsingiOS6Attributes:(BOOL)useiOS6Attributes
 {
 	// Load HTML data
-	NSString *readmePath = [[NSBundle mainBundle] pathForResource:_fileName ofType:nil];
-	NSString *html = [NSString stringWithContentsOfFile:readmePath encoding:NSUTF8StringEncoding error:NULL];
+	NSString *readmePath;
+	NSString *html;
+	if (baseURL.absoluteString.length >0) {
+		
+//		var str = NSString(contentsOfURL: NSURL(string: "http://www.baidu.com")!, encoding: NSUTF8StringEncoding, error: nil)
+//		NSString *readmePath = [NSString stringWithFormat:@"%@%@",baseURL.absoluteString,_fileName];
+		readmePath = @"http://www.baidu.com";
+		NSError *error = nil;
+		html = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.baidu.com/index.html"] encoding:NSUTF8StringEncoding error:&error];
+		if (error) {
+			NSLog(@"error :%@",error);
+		}
+	}else {
+		readmePath = [[NSBundle mainBundle] pathForResource:_fileName ofType:nil];
+		html = [NSString stringWithContentsOfFile:readmePath encoding:NSUTF8StringEncoding error:NULL];
+	}
 	NSData *data = [html dataUsingEncoding:NSUTF8StringEncoding];
-	
+
 	// Create attributed string from HTML
-	CGSize maxImageSize = CGSizeMake(self.view.bounds.size.width - 20.0, self.view.bounds.size.height - 20.0);
+	CGSize maxImageSize = CGSizeMake(self.view.bounds.size.width, self.view.bounds.size.height);
 	
 	// example for setting a willFlushCallback, that gets called before elements are written to the generated attributed string
 	void (^callBackBlock)(DTHTMLElement *element) = ^(DTHTMLElement *element) {
@@ -219,7 +233,7 @@
 	{
 		[options setObject:[NSNumber numberWithBool:YES] forKey:DTUseiOS6Attributes];
 	}
-	
+
 	[options setObject:[NSURL fileURLWithPath:readmePath] forKey:NSBaseURLDocumentOption];
 	
 	NSAttributedString *string = [[NSAttributedString alloc] initWithHTMLData:data options:options documentAttributes:NULL];
@@ -243,7 +257,7 @@
 	_textView.shouldDrawLinks = NO; // we draw them in DTLinkButton
 	NSAttributedString *attrString = [self _attributedStringForSnippetUsingiOS6Attributes:NO];
 	CGFloat height = [_textView getRenderH:attrString width:[UIScreen mainScreen].bounds.size.width];
-	_textView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, height);
+//	_textView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, height);
 	_textView.attributedString = attrString;
 	[self _segmentedControlChanged:nil];
 }
