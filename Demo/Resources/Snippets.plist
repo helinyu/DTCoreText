@@ -3,6 +3,16 @@
 <plist version="1.0">
 <array>
 	<dict>
+		<key>BaseURL</key>
+		<string>https://apod.nasa.gov/apod/</string>
+		<key>Description</key>
+		<string>test html</string>
+		<key>File</key>
+		<string>archivepix.html</string>
+		<key>Title</key>
+		<string>Space and Newline Handling.</string>
+	</dict>
+	<dict>
 		<key>Description</key>
 		<string>Shows the current level of image support.</string>
 		<key>File</key>

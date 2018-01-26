@@ -229,13 +229,12 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
+	self.navigationController.navigationBar.hidden = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-//	[self.navigationController.navigationBar removeFromSuperview];
-	self.navigationController.navigationBar.hidden = YES;
 	
 	CGRect bounds = self.view.bounds;
 	_textView.frame = bounds;
@@ -244,7 +243,7 @@
 	_textView.shouldDrawLinks = NO; // we draw them in DTLinkButton
 	NSAttributedString *attrString = [self _attributedStringForSnippetUsingiOS6Attributes:NO];
 	CGFloat height = [_textView getRenderH:attrString width:[UIScreen mainScreen].bounds.size.width];
-//	_textView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, height);
+	_textView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, height);
 	_textView.attributedString = attrString;
 	[self _segmentedControlChanged:nil];
 }
