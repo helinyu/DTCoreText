@@ -194,9 +194,9 @@
 		
 //		var str = NSString(contentsOfURL: NSURL(string: "http://www.baidu.com")!, encoding: NSUTF8StringEncoding, error: nil)
 //		NSString *readmePath = [NSString stringWithFormat:@"%@%@",baseURL.absoluteString,_fileName];
-		readmePath = @"http://www.baidu.com";
+		readmePath = baseURL.absoluteString;
 		NSError *error = nil;
-		html = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://www.baidu.com/index.html"] encoding:NSUTF8StringEncoding error:&error];
+		html = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",readmePath,_fileName]] encoding:NSUTF8StringEncoding error:&error];
 		if (error) {
 			NSLog(@"error :%@",error);
 		}
@@ -209,7 +209,6 @@
 	// Create attributed string from HTML
 	CGSize maxImageSize = CGSizeMake(self.view.bounds.size.width, self.view.bounds.size.height);
 	
-	// example for setting a willFlushCallback, that gets called before elements are written to the generated attributed string
 	void (^callBackBlock)(DTHTMLElement *element) = ^(DTHTMLElement *element) {
 		
 		// the block is being called for an entire paragraph, so we check the individual elements
@@ -256,7 +255,7 @@
 	// Display string
 	_textView.shouldDrawLinks = NO; // we draw them in DTLinkButton
 	NSAttributedString *attrString = [self _attributedStringForSnippetUsingiOS6Attributes:NO];
-	CGFloat height = [_textView getRenderH:attrString width:[UIScreen mainScreen].bounds.size.width];
+//	CGFloat height = [_textView getRenderH:attrString width:[UIScreen mainScreen].bounds.size.width];
 //	_textView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, height);
 	_textView.attributedString = attrString;
 	[self _segmentedControlChanged:nil];
