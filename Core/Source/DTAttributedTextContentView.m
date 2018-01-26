@@ -1121,7 +1121,7 @@ static Class _layerClassToUseForDTAttributedTextContentView = nil;
 	{
 		lines = [textContentView.layoutFrame linesVisibleInRect:textContentView.bounds];
 	}
-	NSLog(@"lines ;%@",lines);
+//	NSLog(@"lines ;%@",lines);
 	DTCoreTextLayoutLine *obj = lines.lastObject;
 	for (DTCoreTextLayoutLine *line in lines) {
 		if (line.baselineOrigin.y == 178) {
