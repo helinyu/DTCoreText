@@ -256,6 +256,7 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UITableViewCell class]) forIndexPath:indexPath];
 	cell.textLabel.text = @"hahah";
 	return  cell;
+}
 
 
 // this is only called on >= iOS 5
@@ -736,8 +737,6 @@
 @synthesize lastActionLink;
 @synthesize mediaPlayers;
 @synthesize baseURL;
-
-
 
 - (void)attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView willDrawLayoutFrame:(DTCoreTextLayoutFrame *)layoutFrame inContext:(CGContextRef)context {
 	NSLog(@"willDrawLayoutFrame");

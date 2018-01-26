@@ -235,7 +235,6 @@
 	_textView.frame = bounds;
 
 	// Display string
-	_textView.backgroundColor = [UIColor redColor];
 	_textView.shouldDrawLinks = NO; // we draw them in DTLinkButton
 	NSAttributedString *attrString = [self _attributedStringForSnippetUsingiOS6Attributes:NO];
 	CGFloat height = [_textView getRenderH:attrString width:[UIScreen mainScreen].bounds.size.width];
