@@ -12,7 +12,8 @@
 
 #import "DTTiledLayerWithoutFade.h"
 #import "DTWebVideoView.h"
-
+#import <AVKit/AVKit.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface DemoTextViewController ()
 - (void)_segmentedControlChanged:(id)sender;
@@ -51,9 +52,6 @@
 
 
 #pragma mark NSObject
-
-
-
 
 - (id)init
 {
@@ -436,6 +434,10 @@
 		UIView *grayView = [[UIView alloc] initWithFrame:frame];
 		grayView.backgroundColor = [DTColor blackColor];
 		
+		AVPlayerViewController *playerVC = nil;
+		playerVC = [AVPlayerViewController new];
+		playerVC.player = [[AVPlayer alloc] initWithURL:[NSURL URLWithString:@"videourl"]];
+		[playerVC.player play];
 		// find a player for this URL if we already got one
 		MPMoviePlayerController *player = nil;
 		for (player in self.mediaPlayers)
@@ -452,7 +454,6 @@
 			[self.mediaPlayers addObject:player];
 		}
 		
-#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_4_2
 		NSString *airplayAttr = [attachment.attributes objectForKey:@"x-webkit-airplay"];
 		if ([airplayAttr isEqualToString:@"allow"])
 		{
@@ -461,7 +462,7 @@
 				player.allowsAirPlay = YES;
 			}
 		}
-#endif
+
 		
 		NSString *controlsAttr = [attachment.attributes objectForKey:@"controls"];
 		if (controlsAttr)

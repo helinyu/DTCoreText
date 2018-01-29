@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		0438E765201F331B0032E8F8 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0438E74E201F331A0032E8F8 /* AVKit.framework */; };
 		04AAE77720172341002D48E8 /* custom0.html in Resources */ = {isa = PBXBuildFile; fileRef = 04AAE76020172341002D48E8 /* custom0.html */; };
 		04AAE77920172767002D48E8 /* eg_tulip.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AAE77820172767002D48E8 /* eg_tulip.jpg */; };
 		0DA7797F1C56965600796D4F /* DTCoreTextMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = A717BDE319E5A06C0024EF95 /* DTCoreTextMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1146,6 +1147,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0438E74E201F331A0032E8F8 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.sdk/System/Library/Frameworks/AVKit.framework; sourceTree = DEVELOPER_DIR; };
 		04AAE76020172341002D48E8 /* custom0.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = custom0.html; sourceTree = "<group>"; };
 		04AAE77820172767002D48E8 /* eg_tulip.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = eg_tulip.jpg; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1450,6 +1452,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0438E765201F331B0032E8F8 /* AVKit.framework in Frameworks */,
 				A7949A0014C6256B00A8CCDE /* libxml2.dylib in Frameworks */,
 				A75C6C72141798CE00AEE350 /* MobileCoreServices.framework in Frameworks */,
 				A7D29D661CB68D470068F043 /* DTCoreText.framework in Frameworks */,
@@ -1583,6 +1586,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0438E74E201F331A0032E8F8 /* AVKit.framework */,
 				A74A7AAC1B617250004163BE /* QuartzCore.framework */,
 				A74A7AAA1B617227004163BE /* CoreGraphics.framework */,
 				A74A7AA81B617222004163BE /* UIKit.framework */,

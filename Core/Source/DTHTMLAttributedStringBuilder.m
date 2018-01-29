@@ -24,6 +24,7 @@
 #import "DTCoreTextParagraphStyle.h"
 #import "DTObjectTextAttachment.h"
 #import "DTVideoTextAttachment.h"
+#import <PDFKit/PDFKit.h>
 
 #import "NSString+HTML.h"
 #import "NSCharacterSet+HTML.h"
@@ -346,7 +347,9 @@
 	_preserverDocumentTrailingSpaces = [[_options objectForKey:DTDocumentPreserveTrailingSpaces] boolValue];
 	
 	__block BOOL result;
-	dispatch_group_async(_dataParsingGroup, _dataParsingQueue, ^{ result = [_parser parse]; });
+	dispatch_group_async(_dataParsingGroup, _dataParsingQueue, ^{
+		result = [_parser parse];
+	});
 	
 	// wait until all string assembly is complete
 	dispatch_group_wait(_dataParsingGroup, DISPATCH_TIME_FOREVER);
@@ -391,7 +394,7 @@
 	
 	
 	void (^blockquoteBlock)(void) = ^
-	{
+	{//引号
 		_currentTag.paragraphStyle.headIndent += (CGFloat)25.0 * _textScale;
 		_currentTag.paragraphStyle.firstLineHeadIndent = _currentTag.paragraphStyle.headIndent;
 		_currentTag.paragraphStyle.paragraphSpacing = _defaultFontDescriptor.pointSize;
@@ -401,7 +404,7 @@
 	
 	
 	void (^aBlock)(void) = ^
-	{
+	{	// “a” 链接符号
 		if (_currentTag.isColorInherited || !_currentTag.textColor)
 		{
 			_currentTag.textColor = _defaultLinkColor;
@@ -453,7 +456,7 @@
 	[_tagStartHandlers setObject:[aBlock copy] forKey:@"a"];
 	
 	void (^listBlock)(void) = ^
-	{
+	{ //列表
 		_currentTag.paragraphStyle.firstLineHeadIndent = _currentTag.paragraphStyle.headIndent;
 		
 		// create the appropriate list style from CSS
@@ -473,47 +476,47 @@
 	};
 	
 	[_tagStartHandlers setObject:[listBlock copy] forKey:@"ul"];
-	[_tagStartHandlers setObject:[listBlock copy] forKey:@"ol"];
+	[_tagStartHandlers setObject:[listBlock copy] forKey:@"ol"];//有无符号
 	
 	void (^h1Block)(void) = ^
 	{
 		_currentTag.headerLevel = 1;
 	};
-	[_tagStartHandlers setObject:[h1Block copy] forKey:@"h1"];
+	[_tagStartHandlers setObject:[h1Block copy] forKey:@"h1"];// 标题1
 	
 	void (^h2Block)(void) = ^
 	{
 		_currentTag.headerLevel = 2;
 	};
-	[_tagStartHandlers setObject:[h2Block copy] forKey:@"h2"];
+	[_tagStartHandlers setObject:[h2Block copy] forKey:@"h2"]; //标题2
 	
 	
 	void (^h3Block)(void) = ^
 	{
 		_currentTag.headerLevel = 3;
 	};
-	[_tagStartHandlers setObject:[h3Block copy] forKey:@"h3"];
+	[_tagStartHandlers setObject:[h3Block copy] forKey:@"h3"];//标题3
 	
 	
 	void (^h4Block)(void) = ^
 	{
 		_currentTag.headerLevel = 4;
 	};
-	[_tagStartHandlers setObject:[h4Block copy] forKey:@"h4"];
+	[_tagStartHandlers setObject:[h4Block copy] forKey:@"h4"];//标题4
 	
 	
 	void (^h5Block)(void) = ^
 	{
 		_currentTag.headerLevel = 5;
 	};
-	[_tagStartHandlers setObject:[h5Block copy] forKey:@"h5"];
+	[_tagStartHandlers setObject:[h5Block copy] forKey:@"h5"];//标题5
 	
 	
 	void (^h6Block)(void) = ^
 	{
 		_currentTag.headerLevel = 6;
 	};
-	[_tagStartHandlers setObject:[h6Block copy] forKey:@"h6"];
+	[_tagStartHandlers setObject:[h6Block copy] forKey:@"h6"];//标题6
 	
 	
 	void (^fontBlock)(void) = ^
@@ -525,7 +528,7 @@
 		if (sizeAttribute)
 		{
 			NSInteger sizeValue = [sizeAttribute intValue];
-			
+//			只有10、13 16 18 24 32 48 0
 			switch (sizeValue)
 			{
 				case 1:
@@ -584,7 +587,7 @@
 			_currentTag.textColor = DTColorCreateWithHTMLName(color);
 		}
 	};
-	
+	//	字体
 	[_tagStartHandlers setObject:[fontBlock copy] forKey:@"font"];
 	
 	
@@ -601,7 +604,7 @@
 		}
 	};
 	
-	[_tagStartHandlers setObject:[pBlock copy] forKey:@"p"];
+	[_tagStartHandlers setObject:[pBlock copy] forKey:@"p"];// p 段
 }
 
 - (void)_registerTagEndHandlers
@@ -627,7 +630,7 @@
 		}
 	};
 	
-	[_tagEndHandlers setObject:[objectBlock copy] forKey:@"object"];
+	[_tagEndHandlers setObject:[objectBlock copy] forKey:@"object"];// 对象
 
 	void (^videoBlock)(void) = ^
 	{
@@ -658,7 +661,7 @@
 			}
 		}
 	};
-	
+//	视频
 	[_tagEndHandlers setObject:[videoBlock copy] forKey:@"video"];
 	
 	void (^styleBlock)(void) = ^
@@ -666,10 +669,10 @@
 		DTCSSStylesheet *localSheet = [(DTStylesheetHTMLElement *)_currentTag stylesheet];
 		[_globalStyleSheet mergeStylesheet:localSheet];
 	};
-	
+//	样式
 	[_tagEndHandlers setObject:[styleBlock copy] forKey:@"style"];
 	
-	
+//	链接
 	void (^linkBlock)(void) = ^
 	{
 		NSString *href = [_currentTag attributeForKey:@"href"];
@@ -699,9 +702,7 @@
 
 #pragma mark DTHTMLParser Delegate
 
-- (void)parser:(DTHTMLParser *)parser didStartElement:(NSString *)elementName attributes:(NSDictionary *)attributeDict
-{
-	
+- (void)parser:(DTHTMLParser *)parser didStartElement:(NSString *)elementName attributes:(NSDictionary *)attributeDict{
 	dispatch_group_async(_treeBuildingGroup, _treeBuildingQueue, ^{
 		
 		if (_ignoreParseEvents)
@@ -820,7 +821,7 @@
 			}
 			
 			// output the element if it is direct descendant of body tag, or close of body in case there are direct text nodes
-			
+
 			// find block to execute for this tag if any
 			void (^tagBlock)(void) = [_tagEndHandlers objectForKey:elementName];
 			
