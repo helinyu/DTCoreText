@@ -25,6 +25,8 @@
 @property (nonatomic, strong) NSMutableSet *mediaPlayers;
 @property (nonatomic, strong) NSArray *contentViews;
 
+@property (nonatomic, strong) AVPlayerViewController *playerVC;
+
 @end
 
 
@@ -52,6 +54,8 @@
 
 
 #pragma mark NSObject
+
+
 
 - (id)init
 {
@@ -241,6 +245,10 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	self.navigationController.navigationBar.hidden = YES;
+	
+	if (!_playerVC) {
+		_playerVC = [AVPlayerViewController new];
+	}
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -424,81 +432,40 @@
 	return button;
 }
 
-- (UIView *)attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView viewForAttachment:(DTTextAttachment *)attachment frame:(CGRect)frame
-{
+- (UIView *)attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView viewForAttachment:(DTTextAttachment *)attachment frame:(CGRect)frame {
 	if ([attachment isKindOfClass:[DTVideoTextAttachment class]])
 	{
 		NSURL *url = (id)attachment.contentURL;
-		
-		// we could customize the view that shows before playback starts
 		UIView *grayView = [[UIView alloc] initWithFrame:frame];
 		grayView.backgroundColor = [DTColor blackColor];
 		
-		AVPlayerViewController *playerVC = nil;
-		playerVC = [AVPlayerViewController new];
-		playerVC.player = [[AVPlayer alloc] initWithURL:[NSURL URLWithString:@"videourl"]];
-		[playerVC.player play];
-		// find a player for this URL if we already got one
-		MPMoviePlayerController *player = nil;
+		AVPlayer *player =nil;
+
 		for (player in self.mediaPlayers)
 		{
-			if ([player.contentURL isEqual:url])
+			AVURLAsset *asset = (AVURLAsset *)player.currentItem.asset;
+			if ([asset.URL.absoluteString isEqual:url])
 			{
 				break;
 			}
 		}
-		
+
 		if (!player)
 		{
-			player = [[MPMoviePlayerController alloc] initWithContentURL:url];
+			player = [AVPlayer playerWithURL:url];
 			[self.mediaPlayers addObject:player];
 		}
 		
-		NSString *airplayAttr = [attachment.attributes objectForKey:@"x-webkit-airplay"];
-		if ([airplayAttr isEqualToString:@"allow"])
-		{
-			if ([player respondsToSelector:@selector(setAllowsAirPlay:)])
-			{
-				player.allowsAirPlay = YES;
-			}
-		}
+		[player pause];
+		grayView.backgroundColor = [UIColor yellowColor];
 
-		
-		NSString *controlsAttr = [attachment.attributes objectForKey:@"controls"];
-		if (controlsAttr)
-		{
-			player.controlStyle = MPMovieControlStyleEmbedded;
-		}
-		else
-		{
-			player.controlStyle = MPMovieControlStyleNone;
-		}
-		
-		NSString *loopAttr = [attachment.attributes objectForKey:@"loop"];
-		if (loopAttr)
-		{
-			player.repeatMode = MPMovieRepeatModeOne;
-		}
-		else
-		{
-			player.repeatMode = MPMovieRepeatModeNone;
-		}
-		
-		NSString *autoplayAttr = [attachment.attributes objectForKey:@"autoplay"];
-		if (autoplayAttr)
-		{
-			player.shouldAutoplay = YES;
-		}
-		else
-		{
-			player.shouldAutoplay = NO;
-		}
-		
-		[player prepareToPlay];
-		
-		player.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-		player.view.frame = grayView.bounds;
-		[grayView addSubview:player.view];
+		DTLinkButton *button = [[DTLinkButton alloc] initWithFrame:CGRectMake(0, frame.size.height -40, 100, 40)];
+		button.URL = attachment.contentURL;
+		button.GUID = attachment.hyperLinkGUID;
+		[button addTarget:self action:@selector(ontapClick:) forControlEvents:UIControlEventTouchUpInside];
+		[button setTitle:@"播放" forState:UIControlStateNormal];
+		[button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+		[grayView addSubview:button];
 		
 		return grayView;
 	}
@@ -568,6 +535,10 @@
 	}
 	
 	return nil;
+}
+
+- (void)ontapClick:(DTLinkButton *)sender {
+	NSLog(@"sender  link :%@",sender.URL);
 }
 
 - (void)onTap:(UITapGestureRecognizer *)recognizer {
