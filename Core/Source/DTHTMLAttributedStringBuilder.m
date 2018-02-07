@@ -63,12 +63,12 @@
 	NSMutableAttributedString *_tmpString;
 	
 	// GCD
-	dispatch_queue_t _stringAssemblyQueue;
-	dispatch_group_t _stringAssemblyGroup;
-	dispatch_queue_t _dataParsingQueue;
-	dispatch_group_t _dataParsingGroup;
-	dispatch_queue_t _treeBuildingQueue;
-	dispatch_group_t _treeBuildingGroup;
+//	dispatch_queue_t _stringAssemblyQueue;
+//	dispatch_group_t _stringAssemblyGroup;
+//	dispatch_queue_t _dataParsingQueue;
+//	dispatch_group_t _dataParsingGroup;
+//	dispatch_queue_t _treeBuildingQueue;
+//	dispatch_group_t _treeBuildingGroup;
 	
 	// lookup table for blocks that deal with begin and end tags
 	NSMutableDictionary *_tagStartHandlers;
@@ -112,12 +112,12 @@
 		_parser.delegate = (id)self;
 		
 		// GCD setup
-		_stringAssemblyQueue = dispatch_queue_create("DTHTMLAttributedStringBuilder", 0);
-		_stringAssemblyGroup = dispatch_group_create();
-		_dataParsingQueue = dispatch_queue_create("DTHTMLAttributedStringBuilderParser", 0);
-		_dataParsingGroup = dispatch_group_create();
-		_treeBuildingQueue = dispatch_queue_create("DTHTMLAttributedStringBuilderParser Tree Queue", 0);
-		_treeBuildingGroup = dispatch_group_create();
+//		_stringAssemblyQueue = dispatch_queue_create("DTHTMLAttributedStringBuilder", 0);
+//		_stringAssemblyGroup = dispatch_group_create();
+//		_dataParsingQueue = dispatch_queue_create("DTHTMLAttributedStringBuilderParser", 0);
+//		_dataParsingGroup = dispatch_group_create();
+//		_treeBuildingQueue = dispatch_queue_create("DTHTMLAttributedStringBuilderParser Tree Queue", 0);
+//		_treeBuildingGroup = dispatch_group_create();
 	}
 	
 	return self;
@@ -126,12 +126,12 @@
 - (void)dealloc
 {
 #if !OS_OBJECT_USE_OBJC
-	dispatch_release(_stringAssemblyQueue);
-	dispatch_release(_stringAssemblyGroup);
-	dispatch_release(_dataParsingQueue);
-	dispatch_release(_dataParsingGroup);
-	dispatch_release(_treeBuildingQueue);
-	dispatch_release(_treeBuildingGroup);
+//	dispatch_release(_stringAssemblyQueue);
+//	dispatch_release(_stringAssemblyGroup);
+//	dispatch_release(_dataParsingQueue);
+//	dispatch_release(_dataParsingGroup);
+//	dispatch_release(_treeBuildingQueue);
+//	dispatch_release(_treeBuildingGroup);
 #endif
 }
 
@@ -347,14 +347,14 @@
 	_preserverDocumentTrailingSpaces = [[_options objectForKey:DTDocumentPreserveTrailingSpaces] boolValue];
 	
 	__block BOOL result;
-	dispatch_group_async(_dataParsingGroup, _dataParsingQueue, ^{
+//	dispatch_group_async(_dataParsingGroup, _dataParsingQueue, ^{
 		result = [_parser parse];
-	});
+//	});
 	
 	// wait until all string assembly is complete
-	dispatch_group_wait(_dataParsingGroup, DISPATCH_TIME_FOREVER);
-	dispatch_group_wait(_treeBuildingGroup, DISPATCH_TIME_FOREVER);
-	dispatch_group_wait(_stringAssemblyGroup, DISPATCH_TIME_FOREVER);
+//	dispatch_group_wait(_dataParsingGroup, DISPATCH_TIME_FOREVER);
+//	dispatch_group_wait(_treeBuildingGroup, DISPATCH_TIME_FOREVER);
+//	dispatch_group_wait(_stringAssemblyGroup, DISPATCH_TIME_FOREVER);
 	
 	// clean up handlers because they retained self
 	_tagStartHandlers = nil;
@@ -703,8 +703,8 @@
 #pragma mark DTHTMLParser Delegate
 
 - (void)parser:(DTHTMLParser *)parser didStartElement:(NSString *)elementName attributes:(NSDictionary *)attributeDict{
-	dispatch_group_async(_treeBuildingGroup, _treeBuildingQueue, ^{
-		
+//	dispatch_group_async(_treeBuildingGroup, _treeBuildingQueue, ^{
+	
 		if (_ignoreParseEvents)
 		{
 			return;
@@ -807,13 +807,13 @@
 		{
 			tagBlock();
 		}
-	});
+//	});
 }
 
 - (void)parser:(DTHTMLParser *)parser didEndElement:(NSString *)elementName
 {
 
-	dispatch_group_async(_treeBuildingGroup, _treeBuildingQueue, ^{
+//	dispatch_group_async(_treeBuildingGroup, _treeBuildingQueue, ^{
 		@autoreleasepool {
 			if (_ignoreParseEvents)
 			{
@@ -836,7 +836,7 @@
 				{
 					DTHTMLElement *theTag = _currentTag;
 					
-					dispatch_group_async(_stringAssemblyGroup, _stringAssemblyQueue, ^{
+//					dispatch_group_async(_stringAssemblyGroup, _stringAssemblyQueue, ^{
 						// has children that have not been output yet
 						if ([theTag needsOutput])
 						{
@@ -876,7 +876,7 @@
 							}
 							
 						}
-					});
+//					});
 				}
 				
 			}
@@ -896,13 +896,13 @@
 			// go back up a level
 			_currentTag = [_currentTag parentElement];
 		}
-	});
+//	});
 }
 
 - (void)parser:(DTHTMLParser *)parser foundCharacters:(NSString *)string
 {
-	dispatch_group_async(_treeBuildingGroup, _treeBuildingQueue, ^{
-		
+//	dispatch_group_async(_treeBuildingGroup, _treeBuildingQueue, ^{
+	
 		if (_ignoreParseEvents)
 		{
 			return;
@@ -948,10 +948,10 @@
 		// text directly contained in body needs to be output right away
 		if (theTag == _bodyElement)
 		{
-			dispatch_group_async(_stringAssemblyGroup, _stringAssemblyQueue, ^{
+//			dispatch_group_async(_stringAssemblyGroup, _stringAssemblyQueue, ^{
 				[_tmpString appendAttributedString:[textNode attributedString]];
 				theTag.didOutput = YES;
-			});
+//			});
 			
 			// only add it to current tag if we need it
 			if (_shouldKeepDocumentNodeTree)
@@ -962,13 +962,13 @@
 			return;
 		}
 		
-	});
+//	});
 }
 
 - (void)parser:(DTHTMLParser *)parser foundCDATA:(NSData *)CDATABlock
 {
-	dispatch_group_async(_treeBuildingGroup, _treeBuildingQueue, ^{
-		
+//	dispatch_group_async(_treeBuildingGroup, _treeBuildingQueue, ^{
+	
 		if (_ignoreParseEvents)
 		{
 			return;
@@ -982,24 +982,24 @@
 		DTHTMLParserTextNode *textNode = [[DTHTMLParserTextNode alloc] initWithCharacters:styleBlock];
 		
 		[_currentTag addChildNode:textNode];
-	});
+//	});
 }
 
 - (void)parserDidEndDocument:(DTHTMLParser *)parser
 {
-	dispatch_group_async(_treeBuildingGroup, _treeBuildingQueue, ^{
+//	dispatch_group_async(_treeBuildingGroup, _treeBuildingQueue, ^{
 		NSAssert(!_currentTag, @"Something went wrong, at end of document there is still an open node");
 
 		if (!_preserverDocumentTrailingSpaces) {
-			dispatch_group_async(_stringAssemblyGroup, _stringAssemblyQueue, ^{
+//			dispatch_group_async(_stringAssemblyGroup, _stringAssemblyQueue, ^{
 				// trim off white space at end
 				while ([[_tmpString string] hasSuffixCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]])
 				{
 					[_tmpString deleteCharactersInRange:NSMakeRange([_tmpString length]-1, 1)];
 				}
-			});
+//			});
 		}
-	});
+//	});
 }
 
 - (void)parser:(DTHTMLParser *)parser parseErrorOccurred:(NSError *)parseError;
