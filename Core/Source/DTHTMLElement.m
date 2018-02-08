@@ -1495,8 +1495,7 @@ NSDictionary *_classesForNames = nil;
 
 #pragma mark - Working with HTML Attributes
 
-+ (NSSet *)attributesToIgnoreForCustomAttributesAttribute
-{
++ (NSSet *)attributesToIgnoreForCustomAttributesAttribute {
 	return [NSSet setWithObjects:@"style", @"dir", @"align", @"src", @"href", @"color", @"face", @"size", @"name", @"height", @"width", nil];
 }
 

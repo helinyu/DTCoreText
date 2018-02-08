@@ -62,14 +62,6 @@
 	// parsing state, accessed from inside blocks
 	NSMutableAttributedString *_tmpString;
 	
-	// GCD
-//	dispatch_queue_t _stringAssemblyQueue;
-//	dispatch_group_t _stringAssemblyGroup;
-//	dispatch_queue_t _dataParsingQueue;
-//	dispatch_group_t _dataParsingGroup;
-//	dispatch_queue_t _treeBuildingQueue;
-//	dispatch_group_t _treeBuildingGroup;
-	
 	// lookup table for blocks that deal with begin and end tags
 	NSMutableDictionary *_tagStartHandlers;
 	NSMutableDictionary *_tagEndHandlers;
@@ -110,29 +102,12 @@
 		}
 		_parser = [[DTHTMLParser alloc] initWithData:_data encoding:encoding];
 		_parser.delegate = (id)self;
-		
-		// GCD setup
-//		_stringAssemblyQueue = dispatch_queue_create("DTHTMLAttributedStringBuilder", 0);
-//		_stringAssemblyGroup = dispatch_group_create();
-//		_dataParsingQueue = dispatch_queue_create("DTHTMLAttributedStringBuilderParser", 0);
-//		_dataParsingGroup = dispatch_group_create();
-//		_treeBuildingQueue = dispatch_queue_create("DTHTMLAttributedStringBuilderParser Tree Queue", 0);
-//		_treeBuildingGroup = dispatch_group_create();
 	}
 	
 	return self;
 }
 
-- (void)dealloc
-{
-#if !OS_OBJECT_USE_OBJC
-//	dispatch_release(_stringAssemblyQueue);
-//	dispatch_release(_stringAssemblyGroup);
-//	dispatch_release(_dataParsingQueue);
-//	dispatch_release(_dataParsingGroup);
-//	dispatch_release(_treeBuildingQueue);
-//	dispatch_release(_treeBuildingGroup);
-#endif
+- (void)dealloc {
 }
 
 - (BOOL)_buildString
@@ -694,7 +669,7 @@
 
 #pragma mark DTHTMLParser Delegate
 
-- (void)parser:(DTHTMLParser *)parser didStartElement:(NSString *)elementName attributes:(NSDictionary *)attributeDict{
+- (void)parser:(DTHTMLParser *)parser didStartElement:(NSString *)elementName attributes:(NSDictionary *)attributeDict {
 		if (_ignoreParseEvents)
 		{
 			return;
