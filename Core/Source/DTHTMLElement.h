@@ -50,8 +50,8 @@
 	
 	NSArray *_shadows;
 	
-	DTHTMLElementDisplayStyle _displayStyle;
-	DTHTMLElementFloatStyle _floatStyle;
+//	DTHTMLElementDisplayStyle _displayStyle;
+//	DTHTMLElementFloatStyle _floatStyle;
 	
 	BOOL _isColorInherited;
 	

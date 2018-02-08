@@ -1,7 +1,7 @@
 // unicode characters
 
-#define UNICODE_OBJECT_PLACEHOLDER @"\ufffc"
-#define UNICODE_LINE_FEED @"\u2028"
+#define UNICODE_OBJECT_PLACEHOLDER @"\ufffc"  //站位
+#define UNICODE_LINE_FEED @"\u2028" // 【行满】 换行
 
 // unicode spaces (see http://www.cs.tut.fi/~jkorpela/chars/spaces.html)
 

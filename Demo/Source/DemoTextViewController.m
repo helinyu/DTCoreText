@@ -187,15 +187,10 @@
 }
 
 
-- (NSAttributedString *)_attributedStringForSnippetUsingiOS6Attributes:(BOOL)useiOS6Attributes
-{
-	// Load HTML data
+- (NSAttributedString *)_attributedString {
 	NSString *readmePath;
 	NSString *html;
 	if (baseURL.absoluteString.length >0) {
-		
-//		var str = NSString(contentsOfURL: NSURL(string: "http://www.baidu.com")!, encoding: NSUTF8StringEncoding, error: nil)
-//		NSString *readmePath = [NSString stringWithFormat:@"%@%@",baseURL.absoluteString,_fileName];
 		readmePath = baseURL.absoluteString;
 		NSError *error = nil;
 		html = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",readmePath,_fileName]] encoding:NSUTF8StringEncoding error:&error];
@@ -229,14 +224,8 @@
 	
 	NSMutableDictionary *options = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:1.0], NSTextSizeMultiplierDocumentOption, [NSValue valueWithCGSize:maxImageSize], DTMaxImageSize,
 							 @"Times New Roman", DTDefaultFontFamily,  @"purple", DTDefaultLinkColor, @"red", DTDefaultLinkHighlightColor, callBackBlock, DTWillFlushBlockCallBack, nil];
-	
-	if (useiOS6Attributes)
-	{
-		[options setObject:[NSNumber numberWithBool:YES] forKey:DTUseiOS6Attributes];
-	}
-
 	[options setObject:[NSURL fileURLWithPath:readmePath] forKey:NSBaseURLDocumentOption];
-	
+
 	NSAttributedString *string = [[NSAttributedString alloc] initWithHTMLData:data options:options documentAttributes:NULL];
 	
 	return string;
@@ -259,8 +248,8 @@
 	_textView.frame = bounds;
 
 	// Display string
-	_textView.shouldDrawLinks = NO; // we draw them in DTLinkButton
-	NSAttributedString *attrString = [self _attributedStringForSnippetUsingiOS6Attributes:NO];
+	_textView.shouldDrawLinks = NO;
+	NSAttributedString *attrString = [self _attributedString];
 //	CGFloat height = [_textView getRenderH:attrString width:[UIScreen mainScreen].bounds.size.width];
 //	_textView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, height);
 	_textView.attributedString = attrString;
@@ -376,7 +365,7 @@
 		{
 			if (![_iOS6View.attributedText length])
 			{
-				_iOS6View.attributedText = [self _attributedStringForSnippetUsingiOS6Attributes:YES];
+				_iOS6View.attributedText = [self _attributedString];
 			}
 		}
 	}

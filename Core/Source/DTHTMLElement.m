@@ -743,6 +743,7 @@ NSDictionary *_classesForNames = nil;
 	return didModify;
 }
 
+// 将styles 字典的内容穿黄为attributeString
 - (void)applyStyleDictionary:(NSDictionary *)styles
 {
 	if (![styles count])

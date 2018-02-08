@@ -49,8 +49,7 @@
 	
 	DTHTMLAttributedStringBuilder *stringBuilder = [[DTHTMLAttributedStringBuilder alloc] initWithHTML:data options:options documentAttributes:docAttributes];
 	
-	void (^callBackBlock)(DTHTMLElement *element) = [options objectForKey:DTWillFlushBlockCallBack];
-	
+	void (^callBackBlock)(DTHTMLElement *element) = [options objectForKey:DTWillFlushBlockCallBack]; // 什么时候添加的
 	if (callBackBlock)
 	{
 		[stringBuilder setWillFlushCallback:callBackBlock];

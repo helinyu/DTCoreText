@@ -69,7 +69,7 @@
 	DTHTMLAttributedStringBuilderWillFlushCallback _willFlushCallback;
 	DTHTMLAttributedStringBuilderParseErrorCallback _parseErrorCallback;
 
-	BOOL _shouldProcessCustomHTMLAttributes;
+	BOOL _shouldProcessCustomHTMLAttributes; // 自定义html属性
 	
 	// new parsing
 	DTHTMLElement *_rootNode;
@@ -124,32 +124,8 @@
 	}
 	
 	// register default handlers
-	[self _registerTagStartHandlers];
-	[self _registerTagEndHandlers];
-	
-#if DTCORETEXT_SUPPORT_NS_ATTRIBUTES
-	
-	// custom option to use iOS 6 attributes if running on iOS 6
-	if ([[_options objectForKey:DTUseiOS6Attributes] boolValue])
-	{
-#if TARGET_OS_IPHONE
-		// NS-attributes only supported running on iOS 6.0 or greater
-		if (floor(NSFoundationVersionNumber) >= DTNSFoundationVersionNumber_iOS_6_0)
-		{
-			___useiOS6Attributes = YES;
-		}
-		else
-		{
-			___useiOS6Attributes = NO;
-		}
-#else
-		// Mac generally supports it
-		___useiOS6Attributes = YES;
-#endif
-	}
-	
-#endif
-
+//	[self _registerTagStartHandlers];
+//	[self _registerTagEndHandlers];
 	
 	// custom option to scale text
 	_textScale = [[_options objectForKey:NSTextSizeMultiplierDocumentOption] floatValue];
@@ -313,12 +289,12 @@
 		}
 	}
 	
-	_shouldProcessCustomHTMLAttributes = [[_options objectForKey:DTProcessCustomHTMLAttributes] boolValue];
+	_shouldProcessCustomHTMLAttributes = [[_options objectForKey:DTProcessCustomHTMLAttributes] boolValue]; // 获取是否需要自定义？？【应该是外面传入】？
 	
-	// ignore inline styles if option is passed
+	// ignore inline styles if option is passed (是否忽略inline 样式)
 	_ignoreInlineStyles = [[_options objectForKey:DTIgnoreInlineStylesOption] boolValue];
 	
-	// don't remove spaces at end of document
+	// don't remove spaces at end of document 是否移除行末的空白
 	_preserverDocumentTrailingSpaces = [[_options objectForKey:DTDocumentPreserveTrailingSpaces] boolValue];
 	
 	BOOL result = [_parser parse];
@@ -687,12 +663,12 @@
 			previousLastChild = [_currentTag.childNodes lastObject];
 			
 			// add as new child of current node
-			[_currentTag addChildNode:newNode];
+			[_currentTag addChildNode:newNode]; // 当前的类添加子类 （这个时候不可能是html标签）
 			
 			// remember body node
 			if (!_bodyElement && [newNode.name isEqualToString:@"body"])
 			{
-				_bodyElement = newNode;
+				_bodyElement = newNode; // 有可能是body[一个html页面只有一个body]
 			}
 			
 			if (_shouldProcessCustomHTMLAttributes)

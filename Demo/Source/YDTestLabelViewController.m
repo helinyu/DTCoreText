@@ -182,7 +182,7 @@
 }
 
 
-- (NSAttributedString *)_attributedStringForSnippetUsingiOS6Attributes:(BOOL)useiOS6Attributes
+- (NSAttributedString *)_attributedString
 {
 	// Load HTML data
 	NSString *readmePath = [[NSBundle mainBundle] pathForResource:_fileName ofType:nil];
@@ -211,12 +211,6 @@
 	
 	NSMutableDictionary *options = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:1.0], NSTextSizeMultiplierDocumentOption, [NSValue valueWithCGSize:maxImageSize], DTMaxImageSize,
 									@"Times New Roman", DTDefaultFontFamily,  @"purple", DTDefaultLinkColor, @"red", DTDefaultLinkHighlightColor, callBackBlock, DTWillFlushBlockCallBack, nil];
-	
-	if (useiOS6Attributes)
-	{
-		[options setObject:[NSNumber numberWithBool:YES] forKey:DTUseiOS6Attributes];
-	}
-	
 	[options setObject:[NSURL fileURLWithPath:readmePath] forKey:NSBaseURLDocumentOption];
 	
 	NSAttributedString *string = [[NSAttributedString alloc] initWithHTMLData:data options:options documentAttributes:NULL];
@@ -239,7 +233,7 @@
 	// Display string
 	_textView.backgroundColor = [UIColor redColor];
 	_textView.shouldDrawLinks = NO; // we draw them in DTLinkButton
-	NSAttributedString *attrString = [self _attributedStringForSnippetUsingiOS6Attributes:NO];
+	NSAttributedString *attrString = [self _attributedString];
 //	CGFloat height = [_textView getRenderH:attrString width:[UIScreen mainScreen].bounds.size.width];
 	CGFloat height = [_textView getRenderHeight:attrString width:_textView.bounds.size.width];
 	_textView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, height);
@@ -368,7 +362,7 @@
 		{
 			if (![_iOS6View.attributedText length])
 			{
-				_iOS6View.attributedText = [self _attributedStringForSnippetUsingiOS6Attributes:YES];
+				_iOS6View.attributedText = [self _attributedString];
 			}
 		}
 	}
